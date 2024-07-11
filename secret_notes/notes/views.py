@@ -19,8 +19,13 @@ def create_note(request):
             exp_date=exp_date,
             max_views=max_views
         )
-        
-        return HttpResponse(f"Note created! URL: /note/{note.id}")
+        note.save()
+        link = request.build_absolute_uri(f"/note/{note.id}/")
+        return render(
+            request,
+            "notes/note.html",
+            {"link": link},
+        )
     
     return render(request, 'notes/create_note.html')
 
